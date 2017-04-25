@@ -1,11 +1,11 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ import org.mockito.stubbing.Answer;
 import static org.mockito.Mockito.*;
 
 @RunWith(GwtMockitoTestRunner.class)
-public class TreeItemTest {
+public class GenericTreeItemTest {
 
     @GwtMock
     FlowPanel container;
@@ -47,21 +47,21 @@ public class TreeItemTest {
             }
         });
 
-        final Tree tree = mock(Tree.class);
-        final TreeItem treeItem = new TreeItem(TreeItem.Type.ITEM,
-                                                                    "item");
+        final GenericTree genericTree = mock(GenericTree.class);
+        final GenericTreeItem genericTreeItem = new GenericTreeItem(GenericTreeItem.Type.ITEM,
+                                                                    "item", "item", null);
 
-        treeItem.setGenericTree(tree);
+        genericTreeItem.setGenericTree(genericTree);
 
         //Check items are selected
         clickHandler.onClick(new ClickEvent() {
         });
 
-        verify(tree,
-               times(1)).onSelection(eq(treeItem),
+        verify(genericTree,
+               times(1)).onSelection(eq(genericTreeItem),
                                      eq(true));
-        verify(tree,
-               never()).fireStateChanged(eq(treeItem),
+        verify(genericTree,
+               never()).fireStateChanged(eq(genericTreeItem),
                                          eq(GenericTreeItem.State.OPEN));
     }
 
@@ -76,19 +76,19 @@ public class TreeItemTest {
             }
         });
 
-        final Tree tree = mock(Tree.class);
-        final GenericTreeItem genericTreeItem = new TreeItem(TreeItem.Type.CONTAINER,
-                                                                    "folder");
-        genericTreeItem.setGenericTree(tree);
+        final GenericTree genericTree = mock(GenericTree.class);
+        final GenericTreeItem genericTreeItem = new GenericTreeItem(GenericTreeItem.Type.CONTAINER,
+                                                                    "folder", "folder", null);
+        genericTreeItem.setGenericTree(genericTree);
 
         //Check folders are selected and opened
         clickHandler.onClick(new ClickEvent() {
         });
 
-        verify(tree,
+        verify(genericTree,
                times(1)).onSelection(eq(genericTreeItem),
                                      eq(true));
-        verify(tree,
+        verify(genericTree,
                times(1)).fireStateChanged(eq(genericTreeItem),
                                           eq(GenericTreeItem.State.OPEN));
 
@@ -96,11 +96,30 @@ public class TreeItemTest {
         clickHandler.onClick(new ClickEvent() {
         });
 
-        verify(tree,
+        verify(genericTree,
                times(2)).onSelection(eq(genericTreeItem),
                                      eq(true));
-        verify(tree,
+        verify(genericTree,
                times(1)).fireStateChanged(eq(genericTreeItem),
                                           eq(GenericTreeItem.State.CLOSE));
     }
+
+
+    @Test
+    public void testAddItem() {
+        final GenericTree genericTree = mock(GenericTree.class);
+        final GenericTreeItem container = new GenericTreeItem(GenericTreeItem.Type.CONTAINER,
+                                                                    "folder", "folder", null);
+        container.addItem(GenericTreeItem.Type.ITEM,
+                          "item", "item", null);
+
+        genericTree.addItem(container);
+
+
+        //verify(genericTree.getItems(),
+
+    }
+
+
+
 }

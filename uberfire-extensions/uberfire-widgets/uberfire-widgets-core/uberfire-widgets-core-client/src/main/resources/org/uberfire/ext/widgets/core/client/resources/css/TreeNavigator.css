@@ -57,10 +57,11 @@
 }
 
 .tree .tree-item {
+    display: inline-flex;
     position: relative;
     width: 100%;
     height: 20px;
-    margin-top: 1px;
+    margin: 1px;
     cursor: pointer;
     white-space: nowrap;
     border-bottom: 1px solid transparent;
@@ -68,20 +69,22 @@
 }
 
 .tree .tree-item:hover,
-.tree .tree-folder-header:hover {
-    background-color: #d4edfa;
+.tree .tree-folder-header:hover {.
+background-color: #d4edfa;
     border-color: #b3d3e7;
 }
 
 .tree .tree-item .tree-item-name {
-    position: absolute;
-    left: 20px;
+    position: relative;
+    left: 10px;
+    z-index: 1 !important;
+    display: inline-flex;
 }
 
 .tree .tree-item i {
-    position: absolute;
-    top: 3px;
-    left: 5px;
+    position: relative;
+    padding-top: 2px;
+    padding-left: 5px;
 }
 
 .tree .tree-selected,
@@ -90,4 +93,9 @@
     background-color: #0099d3 !important;
     border-color: #0076b7 !important;
     color: #FFFFFF !important;
+}
+
+.tree .tree-item canvas {
+    margin-top: 2px;
+    margin-left: 2px;
 }
